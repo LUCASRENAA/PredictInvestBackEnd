@@ -20,7 +20,7 @@ from django.urls import include
 
 
 from BackEnd import views
-from BackEnd.views import TicketViewSet
+from BackEnd.views import TicketViewSet,TicketAtualizacaoViewSet
 from rest_framework import routers
 
 
@@ -28,6 +28,8 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 router.register('ticket', views.TicketViewSet, basename='ticket')
+router.register('ticket_atualizacao', views.TicketAtualizacaoViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls) ),
