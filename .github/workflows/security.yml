@@ -27,7 +27,7 @@ jobs:
       - name: Run Bandit
         run: |
           pip install bandit
-          bandit -r . --exit-zero 
+          bandit -r . 
 
       - name: Start Django development server
         run: |
