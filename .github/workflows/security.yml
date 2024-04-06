@@ -32,6 +32,8 @@ jobs:
       - name: Start Django development server
         run: |
           python manage.py migrate # Realize as migrações, se necessário
+          echo "export SECRET_KEY='$(openssl rand -hex 40)'" > .DJANGO_SECRET_KEY
+          source .DJANGO_SECRET_KEY
           python manage.py runserver &
 
       - uses: actions/checkout@v3
