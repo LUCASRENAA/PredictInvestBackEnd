@@ -19,7 +19,6 @@ class UserPermission(permissions.BasePermission):
 
 
 class TicketViewSet(viewsets.ModelViewSet):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly, UserPermission]
 
     queryset = Ticket.objects.all()
@@ -28,7 +27,6 @@ class TicketViewSet(viewsets.ModelViewSet):
 
 
 class TicketAtualizacaoViewSet(viewsets.ModelViewSet):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly, UserPermission]
 
     queryset = TicketAtualizacao.objects.all()
