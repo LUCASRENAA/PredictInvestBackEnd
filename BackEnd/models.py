@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Ticket(models.Model):
-    name = models.CharField(max_length=5)
+    name = models.CharField(max_length=5, unique=True)
     setor = models.CharField(max_length=50)
 
     def __str__(self):
