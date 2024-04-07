@@ -80,8 +80,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'PredictInvestBackEnd.wsgi.application'
 
 # CORS
-CORS_ALLOW_ALL_ORIGINS = True # CORS_ALLOWED_ORIGIN = 'http://localhost:3000/'
-
+#CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
