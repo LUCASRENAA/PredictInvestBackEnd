@@ -5,14 +5,14 @@ from django.db import models
 
 
 class Ticket(models.Model):
-    name = models.CharField(max_length=5, unique=True)
-    setor = models.CharField(max_length=50)
+    ticket = models.CharField(max_length=6, unique=True)
+    name = models.CharField(max_length=150)
 
     def __str__(self):
         return self.name
 
 class TicketAtualizacao(models.Model):
-    ticket = models.ForeignKey(Ticket, related_name='ticket' , on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, related_name='atualizacoes' , on_delete=models.CASCADE)
     data_atualizacao = models.DateTimeField(auto_now=True)
     valor_atual = models.DecimalField(max_digits=10, decimal_places=5,default=0)
     payout = models.DecimalField(max_digits=10, decimal_places=2,default=0)
@@ -45,4 +45,4 @@ class TicketAtualizacao(models.Model):
     bazin = models.DecimalField(max_digits=10, decimal_places=2,default=0)
 
     def __str__(self):
-        return self.ticket.name
+        return self.ticket.ticket
