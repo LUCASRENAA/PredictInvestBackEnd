@@ -29,7 +29,7 @@ except KeyError as e:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,7 +82,9 @@ WSGI_APPLICATION = 'PredictInvestBackEnd.wsgi.application'
 # CORS
 #CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3001",
+
 ]
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

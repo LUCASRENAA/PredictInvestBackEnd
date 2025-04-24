@@ -1,12 +1,14 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
+from decimal import Decimal
+import math
 
 
 class Ticket(models.Model):
-    name = models.CharField(max_length=5, unique=True)
-    setor = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    setor = models.CharField(max_length=50, default="")
+    ticket_id = models.CharField(max_length=6, unique=True)
 
     def __str__(self):
         return self.name
@@ -46,3 +48,4 @@ class TicketAtualizacao(models.Model):
 
     def __str__(self):
         return self.ticket.name
+    

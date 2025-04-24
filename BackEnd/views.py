@@ -12,6 +12,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.permissions import BasePermission
+from django.db.models import OuterRef, Subquery
+
 
 class AdminOnlyPermission(BasePermission):
     """
@@ -51,3 +53,12 @@ class TicketAtualizacaoViewSet(viewsets.ModelViewSet):
     queryset = TicketAtualizacao.objects.all()
     serializer_class = TicketAtualizacaoSerializer
     http_method_names = ['get', 'post', 'put', 'patch','delete']
+    def get_queryset(self):
+        # Subquery para pegar o id do registro mais recente por ticket
+        latest_updates = TicketAtualizacao.objects.filter(
+            ticket=OuterRef('ticket')
+        ).order_by('-data_atualizacao')
+
+        return TicketAtualizacao.objects.filter(
+            id__in=Subquery(latest_updates.values('id')[:1])
+        )
