@@ -14,6 +14,7 @@ from rest_framework import permissions
 from rest_framework.permissions import BasePermission
 from django.db.models import OuterRef, Subquery
 
+from rest_framework import filters
 
 class AdminOnlyPermission(BasePermission):
     """
@@ -32,6 +33,7 @@ class UserPermission(permissions.BasePermission):
 
 class TicketViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
+    
 
     def get_permissions(self):
         if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
@@ -44,6 +46,8 @@ class TicketViewSet(viewsets.ModelViewSet):
 
 class TicketAtualizacaoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['ticket__ticket_id'] # <-- busca pelo nome do ticket
 
     def get_permissions(self):
         if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
