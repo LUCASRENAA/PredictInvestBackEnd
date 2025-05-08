@@ -1,0 +1,88 @@
+name: Continuous Integration (CI)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  setup-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache.outputs.cache-key }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache de dependências pip
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-cache-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: pip-cache-
+
+      - name: Instalar dependências do projeto
+        run: pip install -r requirements.txt
+
+  linting:
+    needs: setup-environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar e executar o Ruff para linting
+        run: |
+          pip install ruff
+          ruff check --exclude .github/workflows
+
+  type-checking:
+    needs: setup-environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar e executar Mypy para verificação de tipos
+        run: |
+          pip install mypy types-requests
+          mypy . --ignore-missing-imports --exclude .github/workflows
+
+  security-analysis:
+    needs: setup-environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Bandit para análise de segurança
+        run: pip install bandit
+
+      - name: Gerar relatório completo do Bandit
+        continue-on-error: true
+        run: bandit -r . -f json -o bandit-report.json --exclude .github/workflows
+
+      - name: Verificar vulnerabilidades críticas
+        continue-on-error: false
+        run: bandit -r . -q -lll --exclude .github/workflows
+
+      - name: Exibir vulnerabilidades do Bandit no terminal
+        run: |
+          python .github/workflows/bandit_pretty_report.py
+
+  unit-tests:
+    needs: setup-environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar e executar testes com Pytest
+        run: |
+          pip install pytest
+          if compgen -G 'tests/test_*.py' > /dev/null; then
+            pytest
+          else
+            echo 'Nenhum teste encontrado. Pulando execução do pytest.'
+          fi
