@@ -2,9 +2,9 @@ name: Continuous Integration (CI)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ test_workflow ]
   pull_request:
-    branches: [ main ]
+    branches: [ test_workflow ]
 
 jobs:
   setup-environment:
