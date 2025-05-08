@@ -23,11 +23,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: pip-cache-${{ hashFiles('**/requirements*.txt') }}
+          key: pip-cache-${{ hashFiles('**/requeriments.txt) }}
           restore-keys: pip-cache-
 
       - name: Instalar dependências do projeto
-        run: pip install -r requirements.txt
+        run: pip install -r requeriments.txt
 
   linting:
     needs: setup-environment
