@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main  # Altere para o nome da branch principal do seu repositório
-      - Dev  # Altere para o nome da branch principal do seu repositório
+      - Dev
+      - test_workflow  # Altere para o nome da branch principal do seu repositório
 
 jobs:
   security:
